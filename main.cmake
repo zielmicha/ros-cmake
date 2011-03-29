@@ -174,6 +174,7 @@ find_package(Boost
   serialization 
   signals 
   system 
+  thread
   unit_test_framework 
   wave 
   wserialization)
