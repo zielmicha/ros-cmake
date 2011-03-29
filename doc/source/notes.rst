@@ -7,13 +7,6 @@ The build proceeds as follows:
   This happens without using rospack.  Build logic that needs to look
   at multiple packages uses this file, not rospack.  
 
-* Sanitize the information in the index.  Some information in the
-  manifests is in a format that is difficult to consume.
-
-* Sanitize the CMakeLists.txt.  CMakeLists.txt contain certain
-  invocations, for instance manual setting of RUNTIME_OUTPUT_DIR to be
-  in the source directory, that must be removed.
-
 * Generate cmake files.  A toplevel.cmake file is generated containing
   global information and a topologically sorted list of packages to
   traverse.  Each package contains a package.cmake file that contains
