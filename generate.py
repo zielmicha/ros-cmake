@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-import os, os.path, sys, pprint, pickle, glob, em, yaml, rosbuild2, pprint
+import os, os.path, sys, pprint, pickle, glob, em, yaml, pprint
 from StringIO import StringIO
 from xml.etree import *
 import xml.etree.ElementTree
@@ -240,6 +240,18 @@ d = dict(packages=index,
          langs=langs,
          src_pythonpath=src_pythonpath,
          topo_pkgs=topo_pkgs)
+
+if len(d['packages']) == 0:
+    print "****"
+    print "**** ERROR"
+    print "**** I was unable to find any packages to build."
+    print "**** Are your packages rosbuild2 enabled, "
+    print "**** and is your ROS_PACKAGE_PATH set correctly?"
+    print "**** it may help to check these and rerun cmake"
+    print "****"
+    sys.exit(1)
+    
+
 
 print "Writing toplevel for %d packages...." % len(d['packages'])
 # pprint.pprint(d)
