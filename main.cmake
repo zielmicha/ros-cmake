@@ -34,6 +34,10 @@ else()
     )
 endif()
 
+if(ROS_PACKAGE_PATH STREQUAL "")
+  message(FATAL_ERROR "ROS_PACKAGE_PATH is unset...  we won't be able to find any projects to build this way.")
+endif()
+
 if(NOT CMAKE_CROSSCOMPILING)
   try_run(CLANG CLANG_COMPRESULT
     ${CMAKE_BINARY_DIR}
