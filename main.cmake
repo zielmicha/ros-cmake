@@ -18,14 +18,18 @@ set(ROS_BUILD_LIBRARY_TYPE SHARED
   CACHE STRING 
   "type of libraries to build, either SHARED or STATIC")
 
-if(NOT "$ENV{ROS_PACKAGE_PATH}" STREQUAL "${ROS_PACKAGE_PATH}")
-  set(ROS_PACKAGE_PATH $ENV{ROS_PACKAGE_PATH}:$ENV{ROS_ROOT})
+if(NOT "$ENV{ROS_PACKAGE_PATH}" STREQUAL "")
+  message(STATUS "ROS_PACKAGE_PATH is set in environment")
+  if(NOT "$ENV{ROS_PACKAGE_PATH}:$ENV{ROS_ROOT}" STREQUAL "${ROS_PACKAGE_PATH}")
+    message(STATUS "ROS_PACKAGE_PATH has changed.")
+    set(ROS_PACKAGE_PATH "$ENV{ROS_PACKAGE_PATH}:$ENV{ROS_ROOT}")
+  endif()
 endif()
 
 if (ROS_PACKAGE_PATH)
   set(ROS_PACKAGE_PATH ${ROS_PACKAGE_PATH} CACHE STRING "ros pkg path")
 else()
-  set(ROS_PACKAGE_PATH $ENV{ROS_PACKAGE_PATH}:$ENV{ROS_ROOT}
+  set(ROS_PACKAGE_PATH "$ENV{ROS_PACKAGE_PATH}:$ENV{ROS_ROOT}"
     CACHE STRING "Directories to search for packages to build"
     )
 endif()
