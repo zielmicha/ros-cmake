@@ -35,6 +35,10 @@ include(${CMAKE_CURRENT_BINARY_DIR}/toplevel.static.cmake)
 #  @(':'.join(src_pythonpath))
 #  )
 
+@[for l in langs]
+add_custom_target(gen_@(l[3:]))
+@[end for]
+
 macro(rosbuild_msgs)
 @[for l in langs]
   genmsg_@(l[3:])(${ARGV})
