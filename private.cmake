@@ -132,10 +132,10 @@ endmacro(_rosbuild_check_package_location)
 
 # helper function to register check that results were generated (#580)
 macro(_rosbuild_check_rostest_xml_result test_name test_file)
-  # add_custom_target(${test_name}_result
-  # COMMAND ${rostest_SOURCE_DIR}/ros_comm/bin/rostest-check-results ${test_file}
-  # VERBATIM)
-  # add_dependencies(test-results-run ${test_name}_result)
+  #add_custom_target(${test_name}_result
+  #  COMMAND ${rostest_SOURCE_DIR}/bin/rostest-check-results ${test_file}
+  #  VERBATIM)
+  #add_dependencies(test-results-run ${test_name}_result)
 endmacro(_rosbuild_check_rostest_xml_result test_name)
 
 macro(_rosbuild_add_gtest exe)
@@ -168,7 +168,7 @@ macro(_rosbuild_add_gtest exe)
     WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}
     VERBATIM)
 
-  file(APPEND ${CMAKE_CURRENT_BINARY_DIR}/rostest.list
+  file(APPEND ${PROJECT_BINARY_DIR}/rostest.list
     "rostest --bare --bare-name=${_testname} --bare-limit=${_gtest_TIMEOUT} ${PROJECT_BINARY_DIR}/bin/test/${exe}\n"
     )
 
@@ -194,12 +194,12 @@ endmacro(_rosbuild_add_gtest)
 # this one specifically targets rostest. rostest requires different
 # arguments as cmake doesn't know the name of the output file
 macro(_rosbuild_check_rostest_result test_name test_pkg test_file)
-  add_custom_target(${test_name}_result
-                    COMMAND ${ROSTEST_EXE}/bin/rostest-check-results --rostest ${test_pkg} ${test_file}
-                    WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}
-		    VERBATIM)
+  # add_custom_target(${test_name}_result
+  #                  COMMAND ${ROSTEST_EXE}/bin/rostest-check-results --rostest ${test_pkg} ${test_file}
+  #                  WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}
+  # VERBATIM)
 
-  add_dependencies(test-results-run ${test_name}_result)	 
+  # add_dependencies(test-results-run ${test_name}_result)	 
 endmacro(_rosbuild_check_rostest_result test_name)
 
 macro(_rosbuild_add_rostest file)
@@ -225,9 +225,9 @@ macro(_rosbuild_add_rostest file)
 
   # Make sure all test programs are built before running this test
   # but not if rosbuild_test_nobuild is set, #3008
-  if(NOT rosbuild_test_nobuild)
-    add_dependencies(rostest_${_testname} tests)
-  endif(NOT rosbuild_test_nobuild)
+  #if(NOT rosbuild_test_nobuild)
+  add_dependencies(rostest_${_testname} tests)
+  # endif(NOT rosbuild_test_nobuild)
 
   # rostest-check-results will do the magic of fixing an incorrect file extension
   # Don't register to check rostest output here, because we may have gotten
