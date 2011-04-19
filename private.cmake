@@ -169,7 +169,7 @@ macro(_rosbuild_add_gtest exe)
     VERBATIM)
 
   file(APPEND ${PROJECT_BINARY_DIR}/rostest.list
-    "rostest --bare --bare-name=${_testname} --bare-limit=${_gtest_TIMEOUT} ${PROJECT_BINARY_DIR}/bin/test/${exe}\n"
+    "rostest --package=${PROJECT_NAME} --pkgdir=${PROJECT_BINARY_DIR} --bare --bare-name=${_testname} --bare-limit=${_gtest_TIMEOUT} ${PROJECT_BINARY_DIR}/bin/test/${exe}\n"
     )
 
   # Don't register to check xml output here, because we may have gotten

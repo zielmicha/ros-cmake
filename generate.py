@@ -72,11 +72,14 @@ for k in index:
     #print "ttr:", k, index[k].attrib['recursive_depends']
 langs = {}
 
+src_pythonpath = []
+
 for k, v in index.iteritems():
     #print "VEEE:", v
     for l in v.findall('export/roslang'):
-        #print "WOO:", l.attrib
         langs[k] = l.attrib['cmake']
+    for l in v.findall('pythondir'):
+        src_pythonpath += [v.attrib['srcdir'] + '/' + l.text.strip()]
 
 #pprint.pprint(index)
 #print "langs=", langs
@@ -89,17 +92,10 @@ package_em = open(sys.argv[2] + '/package.cmake.em').read()
 config_em = open(sys.argv[2] + '/package-config.cmake.em').read()
 pkgconfig_em = open(sys.argv[2] + '/pkgconfig.pc.em').read()
 
-src_pythonpath = []
-
-for pkgname, d in index.iteritems():
-    if 'pythondirs' in d:
-        src_pythonpath += d['pythondirs']
-
 topo_pkgs = []
 
 def write_project_cmake(name, d, index=index):
     global topo_pkgs
-    # print ">>>", name, '                    \r',
     sys.stdout.flush()
     bindir = sys.argv[3] + '/' + name
     if not os.path.isdir(bindir):

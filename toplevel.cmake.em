@@ -31,9 +31,9 @@ set(ROSBUILD_LANGS "@aslist(langs)" CACHE STRING "List of enabled languages")
 
 include(${CMAKE_CURRENT_BINARY_DIR}/toplevel.static.cmake)
 
-#set(ROSBUILD_PYTHONPATH
-#  @(':'.join(src_pythonpath))
-#  )
+set(ROSBUILD_PYTHONPATH
+  @(':'.join(src_pythonpath))
+  )
 
 @[for l in langs]
 add_custom_target(gen_@(l[3:]))
