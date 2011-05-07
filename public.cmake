@@ -241,6 +241,12 @@ endmacro(rosbuild_add_library_module)
 # assume that's already built.
 macro(rosbuild_add_gtest_build_flags exe)
   rosbuild_add_compile_flags(${exe} ${GTEST_CFLAGS_OTHER})
+  # This is a bit hackish, but it stops cmake from aborting when no
+  # gtest libraries are found and a user will see no errors unless
+  # they actually try a make tests. Note that we can't avoid setting up
+  # a target, because sometimes users do a target_link_libraries on
+  # their gtest targets. Perhaps better if we set up a dummy cpp
+  # file to be generated when no gtest libraries are around.
   if(GTEST_LIBRARIES)
     target_link_libraries(${exe} ${GTEST_LIBRARIES})
   endif()
