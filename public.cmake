@@ -427,7 +427,7 @@ endmacro(rosbuild_genmsg)
 
 macro(rosbuild_add_boost_directories)
   add_definitions(-DBOOST_CB_DISABLE_DEBUG)
-  include_directories(${BOOST_INCLUDE_DIR})
+  include_directories(${Boost_INCLUDE_DIR})
 endmacro(rosbuild_add_boost_directories)
 
 macro(rosbuild_link_boost target)
