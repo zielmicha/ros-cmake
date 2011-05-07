@@ -5,7 +5,7 @@ set(ROSBUILD_init_called 0)
 
 find_library(GTEST_LIBRARIES gtest)
 if (NOT GTEST_LIBRARIES)
-  message(FATAL_ERROR "you need to install gtest")
+  message(STATUS "no gtest libraries available")
 endif()
 set(GTEST_INCLUDE_DIR /usr/include)
 
