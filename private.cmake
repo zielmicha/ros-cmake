@@ -147,7 +147,7 @@ macro(_rosbuild_add_gtest exe)
   endif(NOT _gtest_TIMEOUT)
 
   # Create the program, with basic + gtest build flags
-  rosbuild_add_executable(${exe}
+  rosbuild_add_executable(${exe} EXCLUDE_FROM_ALL
     ${_gtest_DEFAULT_ARGS}
     )
   set_target_properties(${exe} 
