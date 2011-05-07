@@ -165,12 +165,11 @@ cmake_policy(SET CMP0002 OLD)
 
 include(cmake/FindPkgConfig.cmake)
 
-set(Boost_ADDITIONAL_VERSIONS "1.45.0")
-if (CMAKE_CROSSCOMPILING)
-  set(BOOST_ROOT ${TOOLCHAIN_SYSROOT})
-  set(Boost_DETAILED_FAILURE_MSG TRUE)
-  set(Boost_THREADAPI "win32")
-  set(Boost_DEBUG TRUE)
+#set(Boost_DETAILED_FAILURE_MSG TRUE)
+#set(Boost_DEBUG TRUE)
+
+if(ROS_BUILD_STATIC_EXES)
+  set(Boost_USE_STATIC_LIBS TRUE)
 endif()
 
 find_package(Boost 
@@ -191,10 +190,6 @@ find_package(Boost
   unit_test_framework 
   wave 
   wserialization)
-
-if (CMAKE_CROSSCOMPILING)
-  set(Boost_LIBRARIES ${TOOLCHAIN_SYSROOT}/lib/libboost_thread-win32-mt.a;${BOOST_LIBRARIES})
-endif()
 
 set(CMAKE_THREAD_PREFER_PTHREAD TRUE CACHE BOOL "prefer pthread")
 
