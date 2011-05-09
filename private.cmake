@@ -380,7 +380,6 @@ macro(_rosbuild_add_library lib libname type)
   # are set in rosconfig.cmake.
   rosbuild_add_compile_flags(${lib} ${ROS_COMPILE_FLAGS})
   rosbuild_add_link_flags(${lib} ${ROS_LINK_FLAGS})
-  add_dependencies(${lib} ${PROJECT_NAME}_gen_cpp)
 
   # Make sure to do any prebuild work (e.g., msg/srv generation) before
   # building this target.

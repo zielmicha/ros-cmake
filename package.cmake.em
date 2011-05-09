@@ -17,6 +17,8 @@ file(WRITE ${PROJECT_BINARY_DIR}/rostest.list
 #
 ")
 
+add_custom_target(@(PROJECT)_codegen)
+
 #
 # this will trigger makefile regen if manifest.xml changes
 #
@@ -128,8 +130,8 @@ add_definitions(
 # @depend
 
 @[if len(depend) > 0]
-add_dependencies(@(PROJECT)_gen_cpp 
-  @asitems([x + "_gen_cpp" for x in depend])
+add_dependencies(@(PROJECT)_codegen
+  @asitems([x + "_codegen" for x in depend])
   )
 @[end if]
 

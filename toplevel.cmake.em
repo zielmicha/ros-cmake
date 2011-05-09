@@ -36,8 +36,10 @@ set(ROSBUILD_PYTHONPATH
   )
 
 @[for l in langs]
-add_custom_target(gen_@(l[3:]))
+add_custom_target(codegen_@(l[3:]))
 @[end for]
+
+add_custom_target(codegen_all DEPENDS @{' '.join(['codegen_%s' % l for l in langs])})
 
 macro(rosbuild_msgs)
 @[for l in langs]

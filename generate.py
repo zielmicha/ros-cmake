@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-import os, os.path, sys, pprint, pickle, glob, em, yaml, pprint
+import os, os.path, sys, pprint, pickle, glob, em, pprint
 from StringIO import StringIO
 from xml.etree import *
 import xml.etree.ElementTree

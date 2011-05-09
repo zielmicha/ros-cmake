@@ -1,0 +1,16 @@
+digraph g {
+
+codegen_all -> codegen_py;
+codegen_all -> codegen_cpp;
+
+"(project)_codegen" -> "(project)_codegen_py";
+"(project)_codegen" -> "(project)_codegen_cpp";
+
+codegen_py -> "(project)_codegen_py";
+codegen_cpp -> "(project)_codegen_cpp";
+
+"(project)_(compiled code)" -> "(project)_codegen";
+"(project)_codegen" -> "(project)_cfggen";
+}
+
+

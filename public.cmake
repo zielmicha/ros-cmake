@@ -132,7 +132,7 @@ macro(rosbuild_add_executable exe)
   rosbuild_add_compile_flags(${exe} ${ROS_COMPILE_FLAGS})
   rosbuild_add_link_flags(${exe} ${ROS_LINK_FLAGS})
 
-  add_dependencies(${exe} ${PROJECT_NAME}_gen_cpp)
+  add_dependencies(${exe} ${PROJECT_NAME}_codegen)
   # If we're linking boost statically, we have to force allow multiple definitions because
   # rospack does not remove duplicates
   if ("$ENV{ROS_BOOST_LINK}" STREQUAL "static")
@@ -181,6 +181,7 @@ macro(rosbuild_add_library lib)
   endif()
 
   target_link_libraries(${lib} ${EXPORTED_TO_ME_LIBRARIES} ${3RDPARTY_LIBRARIES})
+  add_dependencies(${lib} ${PROJECT_NAME}_codegen)
 
   install(TARGETS ${lib}
     EXPORT ROS
