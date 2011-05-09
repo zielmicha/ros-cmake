@@ -165,8 +165,8 @@ cmake_policy(SET CMP0002 OLD)
 
 include(cmake/FindPkgConfig.cmake)
 
-set(Boost_DETAILED_FAILURE_MSG TRUE)
-set(Boost_DEBUG TRUE)
+#set(Boost_DETAILED_FAILURE_MSG TRUE)
+#set(Boost_DEBUG TRUE)
 
 if(ROS_BUILD_STATIC_EXES)
   set(Boost_USE_STATIC_LIBS TRUE)
