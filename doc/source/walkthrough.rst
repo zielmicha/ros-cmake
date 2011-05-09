@@ -43,11 +43,11 @@ Setup build environment
 * cd in there and run cmake::
 
     cd build
-    cmake ../work
+    cmake $WORK
 
   you should see lots of output::
 
-    % cmake ../work
+    % cmake $WORK
     -- The C compiler identification is GNU
     -- The CXX compiler identification is GNU
     -- Check for working C compiler: /home/troy/bin/gcc
