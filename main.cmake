@@ -1,5 +1,14 @@
 message(STATUS "--- main.cmake ---")
 
+# see Modules/CMakeGenericSystem.cmake
+if(CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT EQUAL 1)
+  if (CMAKE_HOST_UNIX)
+    set(CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT 0)
+    set(CMAKE_INSTALL_PREFIX "/opt/ros/unknown"
+      CACHE PATH "Installation directory" FORCE)
+  endif()
+endif()
+
 add_custom_target(test)
 
 configure_file(cmake/generate.py 
@@ -86,7 +95,7 @@ set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 
 set(CPACK_GENERATOR DEB)
 set(CPACK_PACKAGE_CONTACT "Your friends at Willow Garage")
-set(CPACK_PACKAGE_NAME "ros-unstable-cpacked")
+set(CPACK_PACKAGE_NAME "ros-unknown-cpacked")
 set(CPACK_PACKAGE_VENDOR "Willow Garage")
 set(CPACK_PACKAGE_VERSION "1.5.0")
 set(CPACK_PACKAGE_VERSION_MAJOR 1)
@@ -252,7 +261,7 @@ foreach(installfile
 
   install(PROGRAMS 
     ${CMAKE_CURRENT_BINARY_DIR}${CMAKE_FILES_DIRECTORY}/${installfile}.install
-    DESTINATION bin
+    DESTINATION ${CMAKE_INSTALL_PREFIX}/env
     RENAME ${installfile})
 endforeach()
   
@@ -266,7 +275,6 @@ install(DIRECTORY ${CMAKE_SOURCE_DIR}/ros/bin/
   FILE_PERMISSIONS 
   WORLD_EXECUTE WORLD_READ GROUP_EXECUTE GROUP_READ OWNER_EXECUTE OWNER_READ
   )
-  
 
 install(DIRECTORY ros/config/
   DESTINATION config/

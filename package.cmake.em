@@ -135,22 +135,23 @@ add_dependencies(@(PROJECT)_codegen
   )
 @[end if]
 
-# 
-# #[for pydir in pythondirs]
-# install(DIRECTORY #pydir/
-#   DESTINATION python
-#   COMPONENT #PROJECT
-#   PATTERN ".svn" EXCLUDE
-#   REGEX ".*\\.py$"
-#   )
-# #[end for]
-# 
-# #[if len(pythondirs) == 0 and (len(msgs) + len(srvs) > 0)]
-# install(FILES ${CMAKE_SOURCE_DIR}/cmake/__init__.py
-#   DESTINATION python/#PROJECT
-#   COMPONENT #PROJECT
-#   )
-# #[end if]
+if(EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/src/${PROJECT_NAME}/__init__.py)
+  install(DIRECTORY src/
+    DESTINATION python
+    PATTERN ".svn" EXCLUDE
+    REGEX ".*\\.py$"
+    )
+else()
+  # if there is only generated python in this project
+  # install a dummy __init__.py
+  
+  @[if (len(msgs) + len(srvs) > 0)]
+     install(FILES ${CMAKE_SOURCE_DIR}/cmake/__init__.py
+       DESTINATION python/${PROJECT_NAME}
+       )
+  @[end if]
+endif()
+
 # 
 # 
 # # includes_i_need
@@ -165,22 +166,21 @@ include_directories(@d
 # #  #asitems(link_dirs)
 # #  )
 # 
-# install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
-#   DESTINATION share
-#   COMPONENT #PROJECT
-#   #   FILES_MATCHING 
-#   #   PATTERN "*.xml" 
-#   #   PATTERN "*.launch" 
-#   #   PATTERN "*.msg" 
-#   #   PATTERN "*.srv" 
-#   #   PATTERN "*.action" 
-#   #   PATTERN "*.cmake" 
-#   #   PATTERN "*.dox" 
-#   #   PATTERN "*.yaml" 
-#   USE_SOURCE_PERMISSIONS
-#   PATTERN ".svn" EXCLUDE
-#   PATTERN "include" EXCLUDE
-#   )
+install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
+  DESTINATION share
+  USE_SOURCE_PERMISSIONS
+  FILES_MATCHING 
+  PATTERN "*.xml" 
+  PATTERN "*.launch" 
+  PATTERN "*.msg" 
+  PATTERN "*.srv" 
+  PATTERN "*.action" 
+  PATTERN "*.cmake" 
+  PATTERN "*.dox" 
+  PATTERN "*.yaml" 
+  PATTERN ".svn" EXCLUDE
+  PATTERN "include" EXCLUDE
+  )
 # 
 # #install(EXPORT ROS 
 # #  NAMESPACE #PROJECT 

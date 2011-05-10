@@ -96,6 +96,7 @@ topo_pkgs = []
 
 def write_project_cmake(name, d, index=index):
     global topo_pkgs
+    print "  * ", name
     sys.stdout.flush()
     bindir = sys.argv[3] + '/' + name
     if not os.path.isdir(bindir):
@@ -115,13 +116,13 @@ def write_project_cmake(name, d, index=index):
     pkgdict['actions'] = actions.text if actions != None else ''
     
     msgs = d.find('msgs')
-    pkgdict['msgs'] = msgs.text if msgs != None else ''
+    pkgdict['msgs'] = msgs.text if msgs != None and msgs.text != None else ''
 
     srvs = d.find('srvs')
-    pkgdict['srvs'] = srvs.text if srvs != None else ''
+    pkgdict['srvs'] = srvs.text if srvs != None and srvs.text != None else ''
 
     cfgs = d.find('cfgs')
-    pkgdict['cfgs'] = cfgs.text if cfgs != None else ''
+    pkgdict['cfgs'] = cfgs.text if cfgs != None and cfgs.text != None else ''
 
     pkgdict['thirdparty'] = [x.attrib['thirdparty']
                              for x in d.findall('depend')
