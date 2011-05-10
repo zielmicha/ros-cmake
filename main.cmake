@@ -84,8 +84,12 @@ set(ROSBUILD TRUE CACHE INTERNAL "Flag for building under rosbuild2.")
 
 include(cmake/FindPkgConfig.cmake)
 
-option(ROS_BUILD_SHARED_LIBS "build shared libs" ON)
-option(ROS_BUILD_STATIC_LIBS "build static libs" OFF)
+option(BUILD_SHARED "build dynamically-linked binaries" ON)
+option(BUILD_STATIC "build statically-linked binaries" OFF)
+
+if(NOT (BUILD_SHARED OR BUILD_STATIC))
+  message(FATAL_ERROR "Neither BUILD_SHARED nor BUILD_STATIC are ON")
+endif()
 
 project(ROS)
 
@@ -237,6 +241,8 @@ rosbuild_check_for_sse()
 
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/cmake/toplevel.static.cmake.in
   ${CMAKE_CURRENT_BINARY_DIR}/toplevel.static.cmake)
+
+message(STATUS "Traversing generated cmake files")
 
 include(${CMAKE_CURRENT_BINARY_DIR}/toplevel.cmake)
 

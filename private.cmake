@@ -353,26 +353,13 @@ macro(_rosbuild_add_library lib libname type)
     rosbuild_add_compile_flags(${lib} -fPIC)
   endif(${type} STREQUAL STATIC)
   
-  # Add explicit dependency of each file on our manifest.xml and those of
-  # our dependencies
-  # The SOURCES property seems to be available only since 2.6.  Yar.
-  #get_target_property(_srclist ${lib} SOURCES)
-  set(_srclist ${ARGN})
-#   foreach(_src ${_srclist})
-#     set(_file_name _file_name-NOTFOUND)
-#     find_file(_file_name ${_src} ${CMAKE_CURRENT_SOURCE_DIR} /)
-#     if(NOT _file_name)
-#       message("[rosbuild] Couldn't find source file ${_src}; assuming that it is in ${CMAKE_CURRENT_SOURCE_DIR} and will be generated later")
-#       set(_file_name ${CMAKE_CURRENT_SOURCE_DIR}/${_src})
-#     endif(NOT _file_name)
-#     add_file_dependencies(${_file_name} ${ROS_MANIFEST_LIST}) 
-#   endforeach(_src)
-
   # Prevent deletion of existing lib of same name
   set_target_properties(${lib} PROPERTIES CLEAN_DIRECT_OUTPUT 1)
+
   # Attach compile and link flags
   rosbuild_add_compile_flags(${lib} ${${PROJECT_NAME}_CFLAGS_OTHER})
   rosbuild_add_link_flags(${lib} ${${PROJECT_NAME}_LDFLAGS_OTHER})
+
   # Link lib against dependent libs
   target_link_libraries(${lib} ${${PROJECT_NAME}_LIBRARIES})
 

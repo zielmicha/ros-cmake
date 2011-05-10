@@ -150,28 +150,17 @@ macro(rosbuild_add_library lib)
 
   parse_arguments(_var "" "PACKAGE_INSTALL;ROOT_INSTALL" ${ARGN})
 
-  # Sanity check; must build at least one kind of library.
-  if(NOT ROS_BUILD_STATIC_LIBS AND NOT ROS_BUILD_SHARED_LIBS)
-    message(FATAL_ERROR "Neither shared nor static libraries are enabled.  Please set either ROS_BUILD_STATIC_LIBS or ROS_BUILD_SHARED_LIBS to true in your $ROS_ROOT/rosconfig.cmake")
-  endif()
-
-  # Sanity check; it's too hard to support building shared libs and static
-  # executables.
-  if(ROS_BUILD_STATIC_EXES AND ROS_BUILD_SHARED_LIBS)
-    message(FATAL_ERROR "Static executables are requested, but so are shared libs. This configuration is unsupported.  Please either set ROS_BUILD_SHARED_LIBS to false or set ROS_BUILD_STATIC_EXES to false.")
-  endif()
-
   # What are we building?
-  if(ROS_BUILD_SHARED_LIBS)
+  if(BUILD_SHARED)
     # If shared libs are being built, they get the default CMake target name
     # No matter what, the libraries get the same name in the end.
     _rosbuild_add_library(${lib} ${lib} SHARED ${_var_DEFAULT_ARGS})
   endif()
 
-  if(ROS_BUILD_STATIC_LIBS)
+  if(BUILD_STATIC)
     # If we're only building static libs, then they get the default CMake
     # target name.
-    if(NOT ROS_BUILD_SHARED_LIBS)
+    if(NOT BUILD_SHARED)
       set(static_lib_name "${lib}")
     else()
       set(static_lib_name "${lib}-static")

@@ -5,7 +5,7 @@ from StringIO import StringIO
 from xml.etree import *
 import xml.etree.ElementTree
 
-print "\nGenerating cmake\n"
+print "\nScanning ROS_PACKAGE_PATH.\n"
 
 MANIFEST="manifest.xml"
 
@@ -31,6 +31,8 @@ for path in pkgpath:
     pkgdirs += get_package_dirs(path)
 
 #print pkgdirs
+print len(pkgdirs), "manifests found."
+print "\nReading manifests.\n++ == rosbuild2 enabled,   -- == rosbuild2 NOT enabled\n"
 
 index = {}
 for pkgdir in pkgdirs:
@@ -41,9 +43,9 @@ for pkgdir in pkgdirs:
     if rb2:
         rb2.set('srcdir', pkgdir)
         index[bn] = rb2
-        print "+ ", bn
+        print "++ ", bn
     else:
-        print "- ", bn
+        print "-- ", bn
         
 # generate 'recursive' dependencies 
 def get_recursive_depends(index, pkgname, stack=[]):
@@ -96,7 +98,7 @@ topo_pkgs = []
 
 def write_project_cmake(name, d, index=index):
     global topo_pkgs
-    print "  * ", name
+    print "*  ", name
     sys.stdout.flush()
     bindir = sys.argv[3] + '/' + name
     if not os.path.isdir(bindir):
@@ -215,6 +217,7 @@ if len(notfound) > 0:
     print ">>> ", ' '.join(notfound)
     sys.exit(0)
 
+print "\nGenerating auxiliary 'package.cmake' files for rosbuild2-enabled packages.\n"
 while len(depgraph) > 0:
     for pkg, deps in depgraph.iteritems():
         deps.difference_update(written)
@@ -250,8 +253,9 @@ if len(d['packages']) == 0:
     
 
 
-print "Writing toplevel for %d packages...." % len(d['packages'])
-# pprint.pprint(d)
+print "\nGenerating toplevel.cmake for %d packages." % len(d['packages'])
+print
+
 
 toplevel_out.write(em.expand(toplevel_em, d))
 

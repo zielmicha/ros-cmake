@@ -41,39 +41,6 @@ if(PROJECTCONFIG)
 endif(PROJECTCONFIG)
 #############################################################
 
-
-#############################################################
-# These are default ROS-wide build configuration settings for CMake.  These
-# settings are used wherever rospack(<packagename>) is done in a 
-# CMakeLists.txt file.  Note that these setting only affect packages 
-# that are built with CMake.
-
-# Set the build type.  Options are:
-#  Debug          : w/ debug symbols, w/o optimization
-#  Release        : w/o debug symbols, w/ optimization
-#  RelWithDebInfo : w/ debug symbols, w/ optimization
-#  RelWithAsserts : w/o debug symbols, w/ optimization
-#  MinSizeRel     : w/o debug symbols, w/ optimization, stripped binaries
-if(NOT DEFINED ROS_BUILD_TYPE)
-  set(ROS_BUILD_TYPE RelWithDebInfo)
-endif(NOT DEFINED ROS_BUILD_TYPE)
-
-# Build static-only executables (e.g., for copying over to another
-# machine)? true or false
-if(NOT DEFINED ROS_BUILD_STATIC_EXES)
-  set(ROS_BUILD_STATIC_EXES false)
-endif(NOT DEFINED ROS_BUILD_STATIC_EXES)
-
-# Build shared libs? true or false
-if(NOT DEFINED ROS_BUILD_SHARED_LIBS)
-  set(ROS_BUILD_SHARED_LIBS true)
-endif(NOT DEFINED ROS_BUILD_SHARED_LIBS)
-
-# Build static libs? true or false
-if(NOT DEFINED ROS_BUILD_STATIC_LIBS)
-  set(ROS_BUILD_STATIC_LIBS false)
-endif(NOT DEFINED ROS_BUILD_STATIC_LIBS)
-
 # Default compile flags for all source files
 include(CheckCXXCompilerFlag)
 if(NOT DEFINED ROS_COMPILE_FLAGS)
