@@ -95,8 +95,6 @@ macro(rosbuild_invoke_rospack pkgname _prefix _varname)
   endif()
 endmacro()
 
-
-
 # A wrapper around add_executable(), using info from the rospack
 # invocation to set up compiling and linking.
 macro(rosbuild_add_executable exe)
@@ -108,7 +106,7 @@ macro(rosbuild_add_executable exe)
   else()
     add_executable(${exe} ${_var_DEFAULT_ARGS})
     install(TARGETS ${exe} 
-      RUNTIME DESTINATION ${CMAKE_INSTALL_PREFIX}/bin
+      RUNTIME DESTINATION ${CMAKE_INSTALL_PREFIX}/bin/${PROJECT_NAME}
       COMPONENT ${PROJECT_NAME}
       )
   endif()
@@ -118,14 +116,16 @@ macro(rosbuild_add_executable exe)
   rosbuild_add_compile_flags(${exe} ${${PROJECT_NAME}_CFLAGS_OTHER})
   rosbuild_add_link_flags(${exe} ${${PROJECT_NAME}_LDFLAGS_OTHER})
 
-  if(ROS_BUILD_STATIC_EXES AND ${CMAKE_SYSTEM_NAME} STREQUAL "Linux")
+  if(BUILD_STATIC AND ${CMAKE_SYSTEM_NAME} STREQUAL "Linux")
     # This will probably only work on Linux.  The LINK_SEARCH_END_STATIC
     # property should be sufficient, but it doesn't appear to work
     # properly.
     rosbuild_add_link_flags(${exe} -static-libgcc -Wl,-Bstatic)
   endif()
 
-  target_link_libraries(${exe} ${${PROJECT_NAME}_LIBRARIES} ${EXPORTED_TO_ME_LIBRARIES} ${3RDPARTY_LIBRARIES})
+  target_link_libraries(${exe} 
+    ${${PROJECT_NAME}_LIBRARIES} ${EXPORTED_TO_ME_LIBRARIES} ${3RDPARTY_LIBRARIES}
+    )
 
   # Add ROS-wide compile and link flags (usually things like -Wall).  These
   # are set in rosconfig.cmake.
@@ -133,11 +133,12 @@ macro(rosbuild_add_executable exe)
   rosbuild_add_link_flags(${exe} ${ROS_LINK_FLAGS})
 
   add_dependencies(${exe} ${PROJECT_NAME}_codegen)
-  # If we're linking boost statically, we have to force allow multiple definitions because
-  # rospack does not remove duplicates
-  if ("$ENV{ROS_BOOST_LINK}" STREQUAL "static")
-    rosbuild_add_link_flags(${exe} "-Wl,--allow-multiple-definition")
-  endif()
+
+  # If we're linking boost statically, we have to force allow multiple
+  # definitions because rospack does not remove duplicates
+  #if ("$ENV{ROS_BOOST_LINK}" STREQUAL "static")
+  #  rosbuild_add_link_flags(${exe} "-Wl,--allow-multiple-definition")
+  #endif()
 
   
 endmacro(rosbuild_add_executable)
