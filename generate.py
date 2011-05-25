@@ -36,6 +36,8 @@ print "\nReading manifests.\n++ == rosbuild2 enabled,   -- == rosbuild2 NOT enab
 
 index = {}
 for pkgdir in pkgdirs:
+    # Avoid muckups with windoze backslashes (causes problems in toplevel.cmake.en).
+    pkgdir = pkgdir.replace('\\','/')
     txt = open(pkgdir + "/" + MANIFEST).read()
     d = xml.etree.ElementTree.fromstring(txt)
     rb2 = d.find('rosbuild2')
