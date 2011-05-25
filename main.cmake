@@ -29,16 +29,23 @@ set(ROS_BUILD_LIBRARY_TYPE SHARED
 
 if(NOT "$ENV{ROS_PACKAGE_PATH}" STREQUAL "")
   message(STATUS "ROS_PACKAGE_PATH is set in environment")
-  if(NOT "$ENV{ROS_PACKAGE_PATH}:$ENV{ROS_ROOT}" STREQUAL "${ROS_PACKAGE_PATH}")
-    message(STATUS "ROS_PACKAGE_PATH has changed.")
-    set(ROS_PACKAGE_PATH "$ENV{ROS_PACKAGE_PATH}:$ENV{ROS_ROOT}")
+  if(WIN32)
+      if(NOT "$ENV{ROS_PACKAGE_PATH};$ENV{ROS_ROOT}" STREQUAL "${ROS_PACKAGE_PATH}")
+          message(STATUS "ROS_PACKAGE_PATH has changed.")
+          set(ROS_PACKAGE_PATH "$ENV{ROS_PACKAGE_PATH};$ENV{ROS_ROOT}")
+      endif()
+  else()
+      if(NOT "$ENV{ROS_PACKAGE_PATH};$ENV{ROS_ROOT}" STREQUAL "${ROS_PACKAGE_PATH}")
+          message(STATUS "ROS_PACKAGE_PATH has changed.")
+          set(ROS_PACKAGE_PATH "$ENV{ROS_PACKAGE_PATH}:$ENV{ROS_ROOT}")
+      endif()
   endif()
 endif()
 
 if (ROS_PACKAGE_PATH)
   set(ROS_PACKAGE_PATH ${ROS_PACKAGE_PATH} CACHE STRING "ros pkg path")
 else()
-  if(WIN32 AND NOT CYGWIN)
+  if(WIN32)
     set(ROS_PACKAGE_PATH "$ENV{ROS_PACKAGE_PATH};$ENV{ROS_ROOT}"
       CACHE STRING "Directories to search for packages to build"
       )
@@ -75,11 +82,16 @@ if (CLANG)
 endif()
 
 execute_process(COMMAND
-  ${CMAKE_SOURCE_DIR}/cmake/generate.py ${ROS_PACKAGE_PATH}
+  python ${CMAKE_SOURCE_DIR}/cmake/generate.py "${ROS_PACKAGE_PATH}"
   ${CMAKE_SOURCE_DIR}/cmake
   ${CMAKE_BINARY_DIR}
-  RESULT_VARIABLE GENERATE_RESULT)
+  RESULT_VARIABLE GENERATE_RESULT
+  OUTPUT_VARIABLE GENERATE_OUTPUT
+  ERROR_VARIABLE GENERATE_ERROR
+  )
 if (GENERATE_RESULT)
+  message(STATUS "********** Output ***********\n ${GENERATE_OUTPUT}")
+  message(STATUS "*********** Error ***********\n ${GENERATE_ERROR}")
   message(FATAL_ERROR "Something was bad while generating")
 endif()
 
