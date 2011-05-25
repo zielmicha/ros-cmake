@@ -100,7 +100,7 @@ def write_project_cmake(name, d, index=index):
     global topo_pkgs
     print "*  ", name
     sys.stdout.flush()
-    bindir = sys.argv[3] + '/' + name
+    bindir = os.path.join(sys.argv[3],name)
     if not os.path.isdir(bindir):
         os.mkdir(bindir)
     pkgdict = dict(PROJECT = name)
