@@ -24,7 +24,7 @@ def get_package_dirs(p):
     os.path.walk(p, visit, pkgs)
     return pkgs
     
-pkgpath = sys.argv[1].split(':')
+pkgpath = sys.argv[1].split(os.pathsep)
 
 pkgdirs = []
 for path in pkgpath:

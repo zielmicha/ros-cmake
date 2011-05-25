@@ -38,9 +38,15 @@ endif()
 if (ROS_PACKAGE_PATH)
   set(ROS_PACKAGE_PATH ${ROS_PACKAGE_PATH} CACHE STRING "ros pkg path")
 else()
-  set(ROS_PACKAGE_PATH "$ENV{ROS_PACKAGE_PATH}:$ENV{ROS_ROOT}"
-    CACHE STRING "Directories to search for packages to build"
-    )
+  if(WIN32 AND NOT CYGWIN)
+    set(ROS_PACKAGE_PATH "$ENV{ROS_PACKAGE_PATH};$ENV{ROS_ROOT}"
+      CACHE STRING "Directories to search for packages to build"
+      )
+  else()
+      set(ROS_PACKAGE_PATH "$ENV{ROS_PACKAGE_PATH}:$ENV{ROS_ROOT}"
+      CACHE STRING "Directories to search for packages to build"
+      )
+  endif()
 endif()
 
 if(ROS_PACKAGE_PATH STREQUAL "")
