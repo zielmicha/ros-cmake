@@ -195,6 +195,10 @@ endmacro()
 cmake_policy(SET CMP0002 OLD)
 
 include(cmake/FindPkgConfig.cmake)
+# avoid automatic linking with windows
+if(MSVC)
+	add_definitions(-D"BOOST_ALL_NO_LIB")
+endif()
 
 #set(Boost_DETAILED_FAILURE_MSG TRUE)
 #set(Boost_DEBUG TRUE)
