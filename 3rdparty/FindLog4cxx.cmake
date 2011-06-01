@@ -5,8 +5,7 @@
 # Log4cxx_INCLUDE_DIRS - The include directories.
 # Log4cxx_LIBRARIES - the libs
 #
-# Variables that can be used as a hint to the module if it can't find the library
-# with educated guesses:
+# Variables that can be used as a hint for locating the library:
 #
 # Log4cxx_ROOT_DIR - setdirectory under which lib and include folders are located.
 
