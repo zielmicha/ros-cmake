@@ -351,9 +351,6 @@ macro(_rosbuild_add_library lib libname type)
     # libs, even though it's necessary on 64-bit machines for linking this
     # lib against shared libs downstream.
     rosbuild_add_compile_flags(${lib} -fPIC)
-  else(${type} STREQUAL STATIC)
-    # Shared lib
-	SET_TARGET_PROPERTIES (${lib} PROPERTIES DEFINE_SYMBOL  "ROS_COMPILING_SHARED_LIBRARY" )
   endif(${type} STREQUAL STATIC)
   
   # Prevent deletion of existing lib of same name

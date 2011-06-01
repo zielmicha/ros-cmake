@@ -2,3 +2,5 @@
 *.pyc
 *.cover
 doc/build/
+/.pydevproject
+/.project
