@@ -10,8 +10,7 @@
 #
 # Log4cxx_ROOT_DIR - setdirectory under which lib and include folders are located.
 
-#set(Log4cxx_ROOT_DIR "${CMAKE_INSTALL_PREFIX}" CACHE STRING "Specify root directory if internal guesses fail (e.g. /opt/).")
-set(Log4cxx_ROOT_DIR "C:\work\rosbuild2\ros-sdk" CACHE STRING "Specify root directory if internal guesses fail (e.g. /opt/).")
+set(Log4cxx_ROOT_DIR "${CMAKE_INSTALL_PREFIX}" CACHE STRING "Specify root directory if internal guesses fail (e.g. /opt/).")
 
 
 if(MINGW)
