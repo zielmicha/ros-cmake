@@ -275,7 +275,9 @@ include(${CMAKE_CURRENT_BINARY_DIR}/toplevel.cmake)
 foreach(setupfile
     setup.sh
     setup.csh
+    setup.bat
     env.sh
+    env.bat
     )
   configure_file(
     ${CMAKE_CURRENT_SOURCE_DIR}/cmake/${setupfile}.buildspace.in
