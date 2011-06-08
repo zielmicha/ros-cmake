@@ -212,8 +212,9 @@ macro(_rosbuild_add_rostest file)
       endif()
     endif()
 
-    # Create a legal target name, in case the target name has slashes in it
+    # Create a legal target name, in case the target name has slashes or colons (aka C:) in it
     string(REPLACE "/" "_" _testname ${file})
+    string(REPLACE ":" "_" _testname ${_testname})
   endif()
 
   # Create target for this test
@@ -254,8 +255,9 @@ macro(_rosbuild_add_pyunit file)
       endif()
     endif()
 
-    # Create a legal target name, in case the target name has slashes in it
+    # Create a legal target name, in case the target name has slashes or colons (aka C:) in it
     string(REPLACE "/" "_" _testname ${file})
+    string(REPLACE ":" "_" _testname ${_testname})
 
     # We look for ROS_TEST_COVERAGE=1
     # to indicate that coverage reports are being requested.
