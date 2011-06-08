@@ -40,7 +40,7 @@ for pkgdir in pkgdirs:
     d = xml.etree.ElementTree.fromstring(txt)
     rb2 = d.find('rosbuild2')
     bn = os.path.basename(pkgdir)
-    if rb2:
+    if rb2 is not None:
         rb2.set('srcdir', pkgdir)
         index[bn] = rb2
         print "++ ", bn
