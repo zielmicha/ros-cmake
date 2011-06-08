@@ -18,6 +18,9 @@ file(WRITE ${PROJECT_BINARY_DIR}/rostest.list
 ")
 
 add_custom_target(@(PROJECT)_codegen)
+set(@(PROJECT)_DEPENDS @aslist(depend))
+set(@(PROJECT)_RECURSIVE_DEPENDS @aslist(recursive_depends))
+
 
 #
 # this will trigger makefile regen if manifest.xml changes
