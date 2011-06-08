@@ -7,30 +7,31 @@ set PATH=%ROS_ROOT%/bin;%ROS_BUILD%/bin;%PATH%
 set ROS_PACKAGE_PATH=@ROS_PACKAGE_PATH@
 if NOT DEFINED ROS_MASTER_URI set ROS_MASTER_URI=@ROS_MASTER_URI@
 
-if NOT EXIST @CMAKE_BINARY_DIR@/rosconsole.config (
-    echo Using buildspace rosconsole.config
-    set ROSCONSOLE_CONFIG_FILE=@CMAKE_BINARY_DIR@/rosconsole.config
+if NOT "%1"=="quiet" (
+	if NOT EXIST C:/work/rosbuild2/msvc/rosconsole.config (
+	    echo Using buildspace rosconsole.config
+	    set ROSCONSOLE_CONFIG_FILE=C:/work/rosbuild2/msvc/rosconsole.config
+	)
+	if EXIST %ROS_ROOT%\..\win_ros\win_roscd\roscd.bat (
+	    	echo roscd is available
+    		doskey roscd=%ROS_ROOT%\..\win_ros\win_roscd\roscd.bat $1
+	)
+	echo 
+	echo Your ros environment:
+	echo   ROS_ROOT=%ROS_ROOT%
+	echo   PYTHONPATH=%PYTHONPATH%
+	echo   ROS_MASTER_URI=%ROS_MASTER_URI%
+	REM echo   ROS_PACKAGE_PATH=%ROS_PACKAGE_PATH%
+
+	REM # TODO: load rosbash goodies if available (use doskey in windows -> see win_ros/win_env/winshell.bat and win_ros/win_roscd
+	REM #_ROSBASH_GOODIES=$ROS_ROOT/tools/rosbash/ros$(basename $SHELL)
+	REM #if [ -f $_ROSBASH_GOODIES ] ; then
+	REM #    echo "Loading rosbash goodies from $ROSBASH_GOODIES"
+	REM #    . $_ROSBASH_GOODIES
+	REM #else
+	REM #    unset _ROSBASH_GOODIES
+	REM #fi
 )
 
-if EXIST %ROS_ROOT%\..\win_ros\win_roscd\roscd.bat (
-    echo roscd is available
-    doskey roscd=%ROS_ROOT%\..\win_ros\win_roscd\roscd.bat $1
-)
 
-echo 
-echo Your ros environment:
-echo   ROS_ROOT=%ROS_ROOT%
-echo   PYTHONPATH=%PYTHONPATH%
-echo   ROS_MASTER_URI=%ROS_MASTER_URI%
-REM echo   ROS_PACKAGE_PATH=%ROS_PACKAGE_PATH%
-
-
-REM # TODO: load rosbash goodies if available (use doskey in windows -> see win_ros/win_env/winshell.bat and win_ros/win_roscd
-REM #_ROSBASH_GOODIES=$ROS_ROOT/tools/rosbash/ros$(basename $SHELL)
-REM #if [ -f $_ROSBASH_GOODIES ] ; then
-REM #    echo "Loading rosbash goodies from $ROSBASH_GOODIES"
-REM #    . $_ROSBASH_GOODIES
-REM #else
-REM #    unset _ROSBASH_GOODIES
-REM #fi
 
