@@ -3,11 +3,14 @@
 # to rosbuild_init(), related to #1487.
 set(ROSBUILD_init_called 0)
 
-find_library(GTEST_LIBRARIES gtest)
+set(GTEST_CFLAGS_OTHER "" CACHE STRING "Additional cflags for gtests.")
+set(GTEST_LDFLAGS_OTHER "" CACHE STRING "Additional ldflags for gtests.")
+set(GTEST_INCLUDEDIR /usr/include CACHE PATH "Hint for gtest headers location.")
+set(GTEST_LIBRARYDIR /usr/lib CACHE PATH "Hint for gtest library location.")
+find_library(GTEST_LIBRARIES gtest PATHS ${GTEST_LIBRARYDIR})
 if (NOT GTEST_LIBRARIES)
-  message(STATUS "no gtest libraries available")
+  message(STATUS "No gtest libraries available")
 endif()
-set(GTEST_INCLUDE_DIR /usr/include)
 
 # Use this package to get add_file_dependencies()
 include(AddFileDependencies)
