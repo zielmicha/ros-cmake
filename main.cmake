@@ -29,7 +29,7 @@ set(ROS_BUILD_LIBRARY_TYPE SHARED
 
 if(NOT "$ENV{ROS_PACKAGE_PATH}" STREQUAL "")
   message(STATUS "ROS_PACKAGE_PATH is set in environment")
-  if(WIN32)
+  if(MSVC)
       if(NOT "$ENV{ROS_PACKAGE_PATH};$ENV{ROS_ROOT}" STREQUAL "${ROS_PACKAGE_PATH}")
           message(STATUS "ROS_PACKAGE_PATH has changed.")
           set(ROS_PACKAGE_PATH "$ENV{ROS_PACKAGE_PATH};$ENV{ROS_ROOT}")
