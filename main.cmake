@@ -207,7 +207,7 @@ endif()
 #set(Boost_DETAILED_FAILURE_MSG TRUE)
 #set(Boost_DEBUG TRUE)
 
-if(ROS_BUILD_STATIC_EXES)
+if(BUILD_STATIC)
   set(Boost_USE_STATIC_LIBS TRUE)
 endif()
 
