@@ -281,6 +281,7 @@ foreach(setupfile
     setup.sh
     setup.csh
     env.sh
+    env.bat
     )
   configure_file(
     ${CMAKE_CURRENT_SOURCE_DIR}/cmake/${setupfile}.buildspace.in
