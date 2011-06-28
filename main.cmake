@@ -61,6 +61,11 @@ if (ROS_3RDPARTY_PATH)
   message("ROS_3RDPARTY_PATH=${ROS_3RDPARTY_PATH}")
 endif()
 
+find_package(PythonInterp)
+if (NOT PYTHONINTERP_FOUND)
+  message(FATAL_ERROR "could not find python interpreter")
+endif()
+
 #
 # this shouldn't really be here
 #
@@ -69,7 +74,8 @@ if (CLANG)
 endif()
 
 execute_process(COMMAND
-  ${CMAKE_SOURCE_DIR}/cmake/generate.py ${ROS_PACKAGE_PATH}
+  ${PYTHON_EXECUTABLE}
+  ${CMAKE_SOURCE_DIR}/cmake/generate.py "${ROS_PACKAGE_PATH}"
   ${CMAKE_SOURCE_DIR}/cmake
   ${CMAKE_BINARY_DIR}
   RESULT_VARIABLE GENERATE_RESULT)
@@ -180,6 +186,8 @@ include(cmake/FindPkgConfig.cmake)
 
 #set(Boost_DETAILED_FAILURE_MSG TRUE)
 #set(Boost_DEBUG TRUE)
+
+set(Boost_ADDITIONAL_VERSIONS 1.46.1)
 
 if(ROS_BUILD_STATIC_EXES)
   set(Boost_USE_STATIC_LIBS TRUE)
