@@ -29,18 +29,31 @@ set(ROS_BUILD_LIBRARY_TYPE SHARED
 
 if(NOT "$ENV{ROS_PACKAGE_PATH}" STREQUAL "")
   message(STATUS "ROS_PACKAGE_PATH is set in environment")
-  if(NOT "$ENV{ROS_PACKAGE_PATH}:$ENV{ROS_ROOT}" STREQUAL "${ROS_PACKAGE_PATH}")
+  if(MSVC)
+      if(NOT "$ENV{ROS_PACKAGE_PATH};$ENV{ROS_ROOT}" STREQUAL "${ROS_PACKAGE_PATH}")
+          message(STATUS "ROS_PACKAGE_PATH has changed.")
+          set(ROS_PACKAGE_PATH "$ENV{ROS_PACKAGE_PATH};$ENV{ROS_ROOT}")
+      endif()
+  else()
+      if(NOT "$ENV{ROS_PACKAGE_PATH};$ENV{ROS_ROOT}" STREQUAL "${ROS_PACKAGE_PATH}")
     message(STATUS "ROS_PACKAGE_PATH has changed.")
     set(ROS_PACKAGE_PATH "$ENV{ROS_PACKAGE_PATH}:$ENV{ROS_ROOT}")
   endif()
+endif()
 endif()
 
 if (ROS_PACKAGE_PATH)
   set(ROS_PACKAGE_PATH ${ROS_PACKAGE_PATH} CACHE STRING "ros pkg path")
 else()
+  if(MSVC)
+    set(ROS_PACKAGE_PATH "$ENV{ROS_PACKAGE_PATH};$ENV{ROS_ROOT}"
+      CACHE STRING "Directories to search for packages to build"
+      )
+  else()
   set(ROS_PACKAGE_PATH "$ENV{ROS_PACKAGE_PATH}:$ENV{ROS_ROOT}"
     CACHE STRING "Directories to search for packages to build"
     )
+  endif()
 endif()
 
 if(ROS_PACKAGE_PATH STREQUAL "")
@@ -80,6 +93,8 @@ execute_process(COMMAND
   ${CMAKE_BINARY_DIR}
   RESULT_VARIABLE GENERATE_RESULT)
 if (GENERATE_RESULT)
+  message(STATUS "********** Output ***********\n ${GENERATE_OUTPUT}")
+  message(STATUS "*********** Error ***********\n ${GENERATE_ERROR}")
   message(FATAL_ERROR "Something was bad while generating")
 endif()
 
@@ -128,7 +143,11 @@ include(CPack)
 
 set(ROS_ROOT ${CMAKE_CURRENT_SOURCE_DIR}/ros)
 set(ROS_SETUP ${CMAKE_CURRENT_BINARY_DIR}/setup)
+if(MSVC)
+  set(ROSBUILD_SUBSHELL ${CMAKE_CURRENT_BINARY_DIR}/env.bat)
+else()
 set(ROSBUILD_SUBSHELL ${CMAKE_CURRENT_BINARY_DIR}/env.sh)
+endif()
 if (NOT ROS_MASTER_URI)
   set(ROS_MASTER_URI http://localhost:11311)
 endif()
@@ -183,13 +202,17 @@ endmacro()
 cmake_policy(SET CMP0002 OLD)
 
 include(cmake/FindPkgConfig.cmake)
+# avoid automatic linking with windows
+if(MSVC)
+	add_definitions(-D"BOOST_ALL_NO_LIB")
+endif()
 
 #set(Boost_DETAILED_FAILURE_MSG TRUE)
 #set(Boost_DEBUG TRUE)
 
 set(Boost_ADDITIONAL_VERSIONS 1.46.1)
 
-if(ROS_BUILD_STATIC_EXES)
+if(BUILD_STATIC)
   set(Boost_USE_STATIC_LIBS TRUE)
 endif()
 
