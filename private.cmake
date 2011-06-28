@@ -205,15 +205,16 @@ endmacro(_rosbuild_check_rostest_result test_name)
 macro(_rosbuild_add_rostest file)
 
   if (NOT CMAKE_CROSSCOMPILING)
-    # Check that the file exists, #1621
-    set(_file_name _file_name-NOTFOUND)
-    find_file(_file_name ${file} ${PROJECT_SOURCE_DIR} /)
-    if(NOT _file_name)
+    # Check that the file exists, #1621, #2994
+    if( NOT EXISTS "${file}" )
+      if( NOT EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/${file}")
       message(FATAL_ERROR "Can't find rostest file \"${file}\"")
-    endif(NOT _file_name)
+      endif()
+    endif()
 
-    # Create a legal target name, in case the target name has slashes in it
+    # Create a legal target name, in case the target name has slashes or colons (aka C:) in it
     string(REPLACE "/" "_" _testname ${file})
+    string(REPLACE ":" "_" _testname ${_testname})
   endif()
 
   # Create target for this test
@@ -247,15 +248,16 @@ macro(_rosbuild_add_pyunit file)
       set(_pyunit_TIMEOUT 60.0)
     endif(NOT _pyunit_TIMEOUT)
 
-    # Check that the file exists, #1621
-    set(_file_name _file_name-NOTFOUND)
-    find_file(_file_name ${file} ${PROJECT_SOURCE_DIR} /)
-    if(NOT _file_name)
-      message(FATAL_ERROR "Can't find pyunit file \"${file}\"")
-    endif(NOT _file_name)
+    # Check that the file exists, #1621, #2994
+    if( NOT EXISTS "${file}" )
+      if( NOT EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/${file}")
+        message(FATAL_ERROR "Can't find rostest file \"${file}\"")
+      endif()
+    endif()
 
-    # Create a legal target name, in case the target name has slashes in it
+    # Create a legal target name, in case the target name has slashes or colons (aka C:) in it
     string(REPLACE "/" "_" _testname ${file})
+    string(REPLACE ":" "_" _testname ${_testname})
 
     # We look for ROS_TEST_COVERAGE=1
     # to indicate that coverage reports are being requested.
