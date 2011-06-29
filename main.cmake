@@ -216,6 +216,7 @@ if(BUILD_STATIC)
   set(Boost_USE_STATIC_LIBS TRUE)
 endif()
 
+
 find_package(Boost 
   COMPONENTS 
   date_time 
@@ -234,6 +235,8 @@ find_package(Boost
   unit_test_framework 
   wave 
   wserialization)
+
+include_directories(${Boost_INCLUDE_DIR})
 
 set(CMAKE_THREAD_PREFER_PTHREAD TRUE CACHE BOOL "prefer pthread")
 

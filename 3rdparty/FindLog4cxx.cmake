@@ -9,7 +9,9 @@
 #
 # Log4cxx_ROOT_DIR - setdirectory under which lib and include folders are located.
 
-set(Log4cxx_ROOT_DIR "${CMAKE_INSTALL_PREFIX}" CACHE STRING "Specify root directory if internal guesses fail (e.g. /opt/).")
+set(Log4cxx_ROOT_DIR 
+  "${CMAKE_INSTALL_PREFIX}" CACHE STRING 
+  "Specify root directory if internal guesses fail (e.g. /opt/).")
 
 
 if(MINGW)
@@ -18,9 +20,16 @@ if(MINGW)
   set(Log4cxx_LIBRARIES log4cxx aprutil-1 expat iconv apr-1 rpcrt4 shell32 ws2_32 advapi32 kernel32 msvcrt)
 else()
   # These are cache variables, but we're not using them - simply use ROOT_DIR instead.
-  find_library(Log4cxx_LIBRARY log4cxx PATHS ${Log4cxx_ROOT_DIR} PATH_SUFFIXES "/lib")
-  find_path(Log4cxx_INCLUDE_DIR log4cxx/log4cxx.h PATHS ${Log4cxx_ROOT_DIR} PATH_SUFFIXES "/include" DOC "Log4cxx include directory.")
+  find_library(Log4cxx_LIBRARY log4cxx PATHS 
+    ${Log4cxx_ROOT_DIR} C:/opt/3rdparty
+    PATH_SUFFIXES "/lib")
+
+  find_path(Log4cxx_INCLUDE_DIR log4cxx/log4cxx.h 
+    PATHS ${Log4cxx_ROOT_DIR} C:/opt/3rdparty
+    PATH_SUFFIXES "/include" DOC "Log4cxx include directory.")
+
   # Non cache variables
+
   set(Log4cxx_LIBRARIES ${Log4cxx_LIBRARY})
   set(Log4cxx_INCLUDE_DIRS ${Log4cxx_INCLUDE_DIR})
 endif()
