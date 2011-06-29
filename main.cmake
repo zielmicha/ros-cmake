@@ -79,6 +79,9 @@ if (NOT PYTHONINTERP_FOUND)
   message(FATAL_ERROR "could not find python interpreter")
 endif()
 
+include(${CMAKE_SOURCE_DIR}/cmake/3rdparty/FindLog4cxx.cmake)
+include_directories(${LOG4CXX_INCLUDE_DIR})
+
 #
 # this shouldn't really be here
 #
@@ -211,11 +214,15 @@ endif()
 #set(Boost_DEBUG TRUE)
 
 set(Boost_ADDITIONAL_VERSIONS 1.46.1)
+set(Boost_USE_MULTITHREADED ON)
 
 if(BUILD_STATIC)
-  set(Boost_USE_STATIC_LIBS TRUE)
+  set(Boost_USE_STATIC_LIBS ON)
+else()
+  set(Boost_USE_STATIC_LIBS OFF)
 endif()
 
+add_definitions(-DBOOST_ALL_DYN_LINK=1)
 
 find_package(Boost 
   COMPONENTS 
@@ -283,6 +290,7 @@ include(${CMAKE_CURRENT_BINARY_DIR}/toplevel.cmake)
 foreach(setupfile
     setup.sh
     setup.csh
+    setup.bat
     env.sh
     env.bat
     )
