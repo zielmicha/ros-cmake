@@ -16,9 +16,10 @@
     uri: https://code.ros.org/svn/ros/stacks/ros_comm/trunk
     local-name: ros_comm
  
-- svn:
-    uri: https://code.ros.org/svn/ros-pkg/stacks/common/trunk
+- hg:
+    uri: https://kforge.ros.org/common/common
     local-name: common
+    version: default
 
 - svn:
     uri: https://code.ros.org/svn/ros-pkg/stacks/common_msgs/trunk
