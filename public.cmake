@@ -179,6 +179,7 @@ macro(rosbuild_add_library lib)
 
   install(TARGETS ${lib}
     EXPORT ROS
+    RUNTIME DESTINATION ${CMAKE_INSTALL_PREFIX}/bin  # windows dlls
     LIBRARY DESTINATION ${CMAKE_INSTALL_PREFIX}/lib  # shared objects
     ARCHIVE DESTINATION ${CMAKE_INSTALL_PREFIX}/lib  # statics
     COMPONENT ${PROJECT_NAME}
