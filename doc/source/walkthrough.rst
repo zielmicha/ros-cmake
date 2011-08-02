@@ -36,6 +36,11 @@ Setup build environment
 
     . $WORK/setup.zsh   # or bash, as appropriate.
 
+* You need to make a link to handle the toplevel CMakeLists.txt::
+
+    cd $WORK
+    ln -s cmake/CMakeLists.txt
+
 * make a build directory::
 
     mkdir build
