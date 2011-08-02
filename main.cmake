@@ -111,6 +111,10 @@ include(cmake/FindPkgConfig.cmake)
 option(BUILD_SHARED "build dynamically-linked binaries" ON)
 option(BUILD_STATIC "build statically-linked binaries" OFF)
 
+if (BUILD_SHARED)
+  add_definitions(-DROS_BUILD_SHARED_LIBS=1)
+endif()
+
 if(NOT (BUILD_SHARED OR BUILD_STATIC))
   message(FATAL_ERROR "Neither BUILD_SHARED nor BUILD_STATIC are ON")
 endif()
@@ -215,14 +219,15 @@ endif()
 
 set(Boost_ADDITIONAL_VERSIONS 1.46.1)
 set(Boost_USE_MULTITHREADED ON)
+set(Boost_USE_STATIC_RUNTIME OFF)
 
 if(BUILD_STATIC)
   set(Boost_USE_STATIC_LIBS ON)
 else()
+  add_definitions(-DBOOST_ALL_DYN_LINK=1)
   set(Boost_USE_STATIC_LIBS OFF)
 endif()
 
-add_definitions(-DBOOST_ALL_DYN_LINK=1)
 
 find_package(Boost 
   COMPONENTS 

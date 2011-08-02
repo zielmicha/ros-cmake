@@ -352,7 +352,9 @@ macro(_rosbuild_add_library lib libname type)
     # Also add -fPIC, because CMake leaves it out when building static
     # libs, even though it's necessary on 64-bit machines for linking this
     # lib against shared libs downstream.
-    rosbuild_add_compile_flags(${lib} -fPIC)
+    if (NOT MSVC)
+      rosbuild_add_compile_flags(${lib} -fPIC)
+    endif()
   endif(${type} STREQUAL STATIC)
   
   # Prevent deletion of existing lib of same name
