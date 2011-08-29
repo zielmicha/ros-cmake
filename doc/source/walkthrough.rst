@@ -271,6 +271,47 @@ In another, run the listener..::
   [ INFO] [1300849344.914395490]: I heard: [hello world 4]
   [ INFO] [1300849345.014413543]: I heard: [hello world 5]
 
+``roslaunch`` works as well::
+
+  % roslaunch rospy_tutorials talker_listener.launch
+  ... logging to /u/straszheim/.ros/log/0192e08c-8579-11e0-afb3-f46d0425a51a/roslaunch-bsq-27044.log
+  Checking log directory for disk usage. This may take awhile.
+  Press Ctrl-C to interrupt
+  Done checking log file disk usage. Usage is <1GB.
+  
+  started roslaunch server http://bsq:42511/
+  
+  SUMMARY
+  ========
+  
+  PARAMETERS
+   * /rosversion
+   * /rosdistro
+  
+  NODES
+    /
+      listener (rospy_tutorials/listener.py)
+      talker (rospy_tutorials/talker.py)
+  
+  ROS_MASTER_URI=http://localhost:11311
+  
+  core service [/rosout] found
+  process[listener-1]: started with pid [27062]
+  process[talker-2]: started with pid [27063]
+  [INFO] [WallTime: 1306181924.178798] hello world 1306181924.18
+  [INFO] [WallTime: 1306181924.279065] hello world 1306181924.28
+  [INFO] [WallTime: 1306181924.279876] /listenerI heard hello world 1306181924.28
+  [INFO] [WallTime: 1306181924.378917] hello world 1306181924.38
+  [INFO] [WallTime: 1306181924.379452] /listenerI heard hello world 1306181924.38
+  [INFO] [WallTime: 1306181924.479130] hello world 1306181924.48
+  [INFO] [WallTime: 1306181924.480006] /listenerI heard hello world 1306181924.48
+  [INFO] [WallTime: 1306181924.579017] hello world 1306181924.58
+  [INFO] [WallTime: 1306181924.579941] /listenerI heard hello world 1306181924.58
+  [INFO] [WallTime: 1306181924.679081] hello world 1306181924.68
+  [INFO] [WallTime: 1306181924.680029] /listenerI heard hello world 1306181924.68
+  [INFO] [WallTime: 1306181924.779076] hello world 1306181924.78
+  
+
 Install
 -------
 

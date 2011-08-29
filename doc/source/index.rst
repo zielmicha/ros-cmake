@@ -22,4 +22,5 @@ Contents
    walkthrough
    notes
    beagleboard
+   windows
    todo
