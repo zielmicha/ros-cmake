@@ -3,11 +3,15 @@
 # to rosbuild_init(), related to #1487.
 set(ROSBUILD_init_called 0)
 
-find_library(GTEST_LIBRARIES gtest)
-if (NOT GTEST_LIBRARIES)
-  message(STATUS "no gtest libraries available")
+find_package(GTest)
+
+if (MSVC)
+  set(GTEST_ROOT "C:/opt/3rdparty" CACHE PATH "GTest dir")
 endif()
-set(GTEST_INCLUDE_DIR /usr/include)
+
+find_library(GTEST_LIBRARIES gtest)
+
+
 
 # Use this package to get add_file_dependencies()
 include(AddFileDependencies)
@@ -175,6 +179,7 @@ macro(rosbuild_add_library lib)
 
   install(TARGETS ${lib}
     EXPORT ROS
+    RUNTIME DESTINATION ${CMAKE_INSTALL_PREFIX}/bin  # windows dlls
     LIBRARY DESTINATION ${CMAKE_INSTALL_PREFIX}/lib  # shared objects
     ARCHIVE DESTINATION ${CMAKE_INSTALL_PREFIX}/lib  # statics
     COMPONENT ${PROJECT_NAME}
@@ -231,7 +236,7 @@ endmacro(rosbuild_add_library_module)
 # part of the "core" build that happens during a 'make' in ros, so we can
 # assume that's already built.
 macro(rosbuild_add_gtest_build_flags exe)
-  rosbuild_add_compile_flags(${exe} ${GTEST_CFLAGS_OTHER})
+  rosbuild_add_compile_flags(${exe} -I${GTEST_INCLUDE_DIR} ${GTEST_CFLAGS_OTHER})
   # This is a bit hackish, but it stops cmake from aborting when no
   # gtest libraries are found and a user will see no errors unless
   # they actually try a make tests. Note that we can't avoid setting up

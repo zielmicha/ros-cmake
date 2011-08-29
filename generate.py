@@ -24,7 +24,7 @@ def get_package_dirs(p):
     os.path.walk(p, visit, pkgs)
     return pkgs
     
-pkgpath = sys.argv[1].split(':')
+pkgpath = sys.argv[1].split(os.pathsep)
 
 pkgdirs = []
 for path in pkgpath:
@@ -36,6 +36,8 @@ print "\nReading manifests.\n++ == rosbuild2 enabled,   -- == rosbuild2 NOT enab
 
 index = {}
 for pkgdir in pkgdirs:
+    # Avoid muckups with windoze backslashes (causes problems in toplevel.cmake.en).
+    pkgdir = pkgdir.replace('\\','/')
     txt = open(pkgdir + "/" + MANIFEST).read()
     d = xml.etree.ElementTree.fromstring(txt)
     rb2 = d.find('rosbuild2')
@@ -100,7 +102,7 @@ def write_project_cmake(name, d, index=index):
     global topo_pkgs
     print "*  ", name
     sys.stdout.flush()
-    bindir = sys.argv[3] + '/' + name
+    bindir = os.path.join(sys.argv[3],name)
     if not os.path.isdir(bindir):
         os.mkdir(bindir)
     pkgdict = dict(PROJECT = name)
