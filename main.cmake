@@ -292,8 +292,6 @@ message(STATUS "Traversing generated cmake files")
 
 include(${CMAKE_CURRENT_BINARY_DIR}/toplevel.cmake)
 
-message(STATUS "About to generate setup.bat.......................go!")
-
 foreach(setupfile
     setup.sh
     setup.csh
