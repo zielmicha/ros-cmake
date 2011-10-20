@@ -4,12 +4,22 @@ set ROS_BUILD=@CMAKE_BINARY_DIR@
 
 set PYTHONPATH=%ROS_BUILD%/gen/py;@CMAKE_SOURCE_DIR@/cmake;%ROS_ROOT%/core/roslib/src;@CMAKE_SOURCE_DIR@/rosidl/src;@ROSBUILD_PYTHONPATH@;%PYTHONPATH%
 set PATH=%ROS_ROOT%/bin;%ROS_BUILD%/bin;%PATH%
+
+REM Log4cxx dll search path
+for %%F in ("%@LOG4CXX_LIBRARIES@") do set LOG4CXX_DIRNAME=%%~dpF
+set PATH=%LOG4CXX_DIRNAME%/../bin;%LOG4CXX_DIRNAME%;%PATH%
+
+REM Boost dll search path
+set PATH=@Boost_LIBRARY_DIRS@;%PATH%
+
 set ROS_PACKAGE_PATH=@ROS_PACKAGE_PATH@
 if NOT DEFINED ROS_MASTER_URI set ROS_MASTER_URI=@ROS_MASTER_URI@
 
 if NOT "%1"=="quiet" (
-    echo Using buildspace rosconsole.config
-    set ROSCONSOLE_CONFIG_FILE=@CMAKE_BINARY_DIR@/rosconsole.config
+	if EXIST %ROS_BUILD%/rosconsole.config (
+	    echo Using buildspace rosconsole.config
+	    set ROSCONSOLE_CONFIG_FILE=%ROS_BUILD%/rosconsole.config
+	)
 	if EXIST %ROS_ROOT%\..\win_ros\win_roscd\roscd.bat (
 	    	echo roscd is available
     		doskey roscd=%ROS_ROOT%\..\win_ros\win_roscd\roscd.bat $1
@@ -19,6 +29,7 @@ if NOT "%1"=="quiet" (
 	echo   ROS_ROOT=%ROS_ROOT%
 	echo   PYTHONPATH=%PYTHONPATH%
 	echo   ROS_MASTER_URI=%ROS_MASTER_URI%
+	echo   ROS_IP=%ROS_IP%
 	REM echo   ROS_PACKAGE_PATH=%ROS_PACKAGE_PATH%
 
 	REM # TODO: load rosbash goodies if available (use doskey in windows -> see win_ros/win_env/winshell.bat and win_ros/win_roscd

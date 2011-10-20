@@ -181,7 +181,7 @@ if (EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/driver_common/dynamic_reconfigure/cmake/r
   include(${CMAKE_CURRENT_SOURCE_DIR}/driver_common/dynamic_reconfigure/cmake/rosbuild2.cmake)
 else()
   macro(rosbuild_cfgs)
-    message("WARNING:  project ${PROJECT_NAME} contains dynamic reconfigure specs but dynamic_reconfigure is not in the workspace")
+    #message("WARNING:  project ${PROJECT_NAME} contains dynamic reconfigure specs but dynamic_reconfigure is not in the workspace")
   endmacro()
 endif()
 
@@ -291,6 +291,8 @@ configure_file(${CMAKE_CURRENT_SOURCE_DIR}/cmake/toplevel.static.cmake.in
 message(STATUS "Traversing generated cmake files")
 
 include(${CMAKE_CURRENT_BINARY_DIR}/toplevel.cmake)
+
+message(STATUS "About to generate setup.bat.......................go!")
 
 foreach(setupfile
     setup.sh
