@@ -1,0 +1,10 @@
+===== Ticketed =====
+
+ - cmake/3rdparty/log4cxx-config.cmake no longer needs handholding
+  - https://github.com/straszheim/ros-cmake/issues/2
+ - cmake/setup.bat.buildspace.in : add boost/cmake dll search paths, something else too(?)
+  - not yet added as an issue to troy's ros-cmake, waiting for further modifications
+
+===== Trivial =====
+
+ - cmake/main.cmake : just a patch to turn off the dynamic reconfigure warning.
