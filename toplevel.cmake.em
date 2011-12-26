@@ -31,6 +31,23 @@ set(ROSBUILD_LANGS "@aslist(langs)" CACHE STRING "List of enabled languages")
 
 include(${CMAKE_CURRENT_BINARY_DIR}/toplevel.static.cmake)
 
+if (EXISTS ${actionlib_msgs_SOURCE_DIR}/cmake/rosbuild2.cmake)
+  include(${actionlib_msgs_SOURCE_DIR}/cmake/rosbuild2.cmake)
+else()
+  macro(rosbuild_actions)
+    message("WARNING:  project actionlib_msgs ${actionlib_msgs_SOURCE_DIR} contains actions but actionlib is not in the workspace")
+  endmacro()
+endif()
+
+if (EXISTS ${dynamic_reconfigure_SOURCE_DIR}/cmake/rosbuild2.cmake)
+  include(${dynamic_reconfigure_SOURCE_DIR}/cmake/rosbuild2.cmake)
+else()
+  macro(rosbuild_cfgs)
+    message("WARNING:  project ${PROJECT_NAME} contains dynamic reconfigure specs but dynamic_reconfigure is not in the workspace")
+  endmacro()
+endif()
+
+
 set(ROSBUILD_PYTHONPATH
   @(':'.join(src_pythonpath))
   )

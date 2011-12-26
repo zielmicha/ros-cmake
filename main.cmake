@@ -167,30 +167,6 @@ file(MAKE_DIRECTORY ${ROSBUILD_GEN_DIR})
 include_directories(${ROSBUILD_GEN_DIR}/cpp)
 
 #
-# FIXME: hack
-#
-if (EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/common_msgs/actionlib_msgs/cmake/rosbuild2.cmake)
-  include(${CMAKE_CURRENT_SOURCE_DIR}/common_msgs/actionlib_msgs/cmake/rosbuild2.cmake)
-else()
-  macro(rosbuild_actions)
-    message("WARNING:  project ${PROJECT_NAME} contains actions but actionlib is not in the workspace")
-  endmacro()
-endif()
-
-#
-# FIXME: hack
-#
-if (EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/driver_common/dynamic_reconfigure/cmake/rosbuild2.cmake)
-  include(${CMAKE_CURRENT_SOURCE_DIR}/driver_common/dynamic_reconfigure/cmake/rosbuild2.cmake)
-else()
-  macro(rosbuild_cfgs)
-    #message("WARNING:  project ${PROJECT_NAME} contains dynamic reconfigure specs but dynamic_reconfigure is not in the workspace")
-  endmacro()
-endif()
-
-
-
-#
 #  apply MACRO to args ARGN
 #
 macro(apply MACRO)
@@ -294,6 +270,7 @@ configure_file(${CMAKE_CURRENT_SOURCE_DIR}/cmake/toplevel.static.cmake.in
 message(STATUS "Traversing generated cmake files")
 
 include(${CMAKE_CURRENT_BINARY_DIR}/toplevel.cmake)
+
 
 foreach(setupfile
     setup.sh
