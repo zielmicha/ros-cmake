@@ -43,7 +43,7 @@ if (EXISTS ${dynamic_reconfigure_SOURCE_DIR}/cmake/rosbuild2.cmake)
   include(${dynamic_reconfigure_SOURCE_DIR}/cmake/rosbuild2.cmake)
 else()
   macro(rosbuild_cfgs)
-    message("WARNING:  project ${PROJECT_NAME} contains dynamic reconfigure specs but dynamic_reconfigure is not in the workspace")
+    #message("WARNING:  project ${PROJECT_NAME} contains dynamic reconfigure specs but dynamic_reconfigure is not in the workspace")
   endmacro()
 endif()
 
