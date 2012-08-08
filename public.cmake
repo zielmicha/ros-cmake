@@ -440,6 +440,10 @@ macro(rosbuild_link_boost target)
     string(TOUPPER ${arg} ARG)
     target_link_libraries(${target} ${Boost_${ARG}_LIBRARY})
   endforeach()
+  # boost 1.50 thread now needs chrono, ugly hack that always adds it here
+  if(Boost_CHRONO_LIBRARY)
+    target_link_libraries(${target} ${Boost_CHRONO_LIBRARY})
+  endif()
 
 endmacro(rosbuild_link_boost)
 

@@ -200,6 +200,7 @@ set(Boost_ADDITIONAL_VERSIONS 1.46.1)
 set(Boost_USE_MULTITHREADED ON)
 set(Boost_USE_STATIC_RUNTIME OFF)
 
+add_definitions(-DBOOST_CHRONO_INLINED=1)
 if(BUILD_STATIC)
   set(Boost_USE_STATIC_LIBS ON)
 else()
@@ -209,7 +210,8 @@ endif()
 
 
 find_package(Boost 
-  COMPONENTS 
+  COMPONENTS
+  chrono 
   date_time 
   filesystem 
   graph 
